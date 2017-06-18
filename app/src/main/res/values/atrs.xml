@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="form_item">
+        <!-- 显示文本 或者输入框-->
+        <attr name="type" format="integer" />
+        <!-- 默认显示tip-->
+        <attr name="tip_show" format="boolean" />
+        <!-- 上面提示字体颜色-->
+        <attr name="tip_color" format="reference" />
+        <!-- 错误提示字体颜色-->
+        <attr name="tip_error_color" format="reference" />
+    </declare-styleable>
+
+</resources>

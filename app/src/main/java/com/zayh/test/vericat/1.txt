@@ -1,0 +1,27 @@
+package com.zayh.test.vericat;
+
+import android.content.res.Resources;
+import android.support.annotation.StringRes;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.zayh.test.R;
+import com.zayh.test.vericat.validator.AbstractValidator;
+import com.zayh.test.vericat.validator.AcceptedValidator;
+import com.zayh.test.vericat.validator.ConfirmValidator;
+import com.zayh.test.vericat.validator.DateValidator;
+import com.zayh.test.vericat.validator.JSONValidator;
+import com.zayh.test.vericat.validator.NumericValidator;
+import com.zayh.test.vericat.validator.RegexValidator;
+import com.zayh.test.vericat.validator.RequiredValidator;
+import com.zayh.test.vericat.validator.TextValidator;
+import com.zayh.test.vericat.validator.TypeValidator;
+
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.regex.Pattern;
