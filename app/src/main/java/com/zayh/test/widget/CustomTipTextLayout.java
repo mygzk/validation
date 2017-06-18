@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zayh.test.R;
+import com.zayh.test.validation.Rule;
 
 /**
  * Created by guozhk on 2017/6/18.
@@ -126,7 +127,7 @@ public class CustomTipTextLayout extends FrameLayout {
         public void afterTextChanged(Editable s) {
             flContent.setBackgroundResource(R.drawable.bg_gray);
             tvErrortip.setVisibility(GONE);
-
+            validtion();
             String searChTv = s.toString();
             if (TextUtils.isEmpty(searChTv)) {
                 tvtip.setVisibility(GONE);
@@ -135,4 +136,9 @@ public class CustomTipTextLayout extends FrameLayout {
             }
         }
     };
+
+    private void validtion() {
+        Rule.with(etInput).required().email().validation();
+
+    }
 }
