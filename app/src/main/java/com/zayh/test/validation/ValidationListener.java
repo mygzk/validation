@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 
-package com.zayh.test.vericat.validator;
+package com.zayh.test.validation;
 
-public class ConfirmValidator extends AbstractValidator<String[]> {
 
-    @Override
-    public boolean isValid(String[] value) {
-        if (value == null || value.length < 2) {
-            return false;
-        }
-        return value[0].equals(value[1]);
-    }
+import java.util.List;
+
+public interface ValidationListener {
+
+    void onValid();
+
+    void onInValid(List<ValidationError> errors);
 
 }

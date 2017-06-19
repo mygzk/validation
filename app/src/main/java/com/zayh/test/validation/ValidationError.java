@@ -10,16 +10,15 @@ import java.util.Map;
  */
 
 public class ValidationError {
-    private String mName;
     private View mView;
-    private List<String> mErrorMessages;
+    private String mErrorMessages;
 
-    public String getmName() {
-        return mName;
+    public ValidationError() {
     }
 
-    public void setmName(String mName) {
-        this.mName = mName;
+    public ValidationError( View mView, String mErrorMessages) {
+        this.mView = mView;
+        this.mErrorMessages = mErrorMessages;
     }
 
     public View getmView() {
@@ -30,11 +29,11 @@ public class ValidationError {
         this.mView = mView;
     }
 
-    public List<String> getmErrorMessages() {
+    public String getmErrorMessages() {
         return mErrorMessages;
     }
 
-    public void setmErrorMessages(List<String> mErrorMessages) {
+    public void setmErrorMessages(String mErrorMessages) {
         this.mErrorMessages = mErrorMessages;
     }
 }

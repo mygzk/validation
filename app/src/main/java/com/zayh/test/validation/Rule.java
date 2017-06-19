@@ -1,22 +1,18 @@
 package com.zayh.test.validation;
 
+import android.content.res.Resources;
 import android.support.annotation.StringRes;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.zayh.test.R;
 import com.zayh.test.validation.validator.RegularStrContant;
-import com.zayh.test.vericat.*;
 import com.zayh.test.validation.validator.AbstractValidator;
 import com.zayh.test.validation.validator.RegexValidator;
 import com.zayh.test.validation.validator.RequiredValidator;
-import com.zayh.test.vericat.ValidationException;
-import com.zayh.test.vericat.validator.TypeValidator;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by guozhk on 2017/6/18.
@@ -31,6 +27,8 @@ public class Rule {
     private View mView;
     //字段名称
     private String mName;
+
+    private Resources mResources;
 
     private List<AbstractValidator> mAbstractValidators;
 
@@ -54,6 +52,7 @@ public class Rule {
         }
         this.mView = mView;
         this.mName = mName;
+        this.mResources = mView.getResources();
         mAbstractValidators = new ArrayList<>();
     }
 
@@ -69,7 +68,7 @@ public class Rule {
      */
     public boolean canSkip() {
         if ((mValidationType == VALIDATION_TYPE_REQUIRED_NO) &&
-                getValue() != null) {
+                (getValue() == null || getValue().equals(""))) {
             return true;
         }
         return false;
@@ -79,9 +78,44 @@ public class Rule {
         return ((TextView) mView).getText();
     }
 
+
+
+    public void validation() {
+        boolean val = true;
+        for (AbstractValidator validator : mAbstractValidators) {
+            if (!validator.isValid(getValue())) {
+                val = false;
+                if (mErrorHandler != null) {
+                    mErrorHandler.onInValid(new ValidationError(mView, validator.getmValidationMsg()));
+                }
+                break;
+            }
+        }
+        if (val) {
+            if (mErrorHandler != null) {
+                mErrorHandler.onValid();
+            }
+        }
+    }
+
+    public View getView() {
+        return mView;
+    }
+
+    private ErrorHandler mErrorHandler;
+
+    public void setValidationListener(ErrorHandler mErrorHandler) {
+        this.mErrorHandler = mErrorHandler;
+    }
+
+    public List<AbstractValidator> getAbstractValidators() {
+        return mAbstractValidators;
+    }
+
     public Rule required() {
         mValidationType = VALIDATION_TYPE_REQUIRED;
-        addValidation(new RequiredValidator("字段不能为空"));
+        String errorMessage = mResources.getString(R.string.validation_error_message_required, mName);
+        addValidation(new RequiredValidator(errorMessage));
         return this;
     }
 
@@ -91,22 +125,8 @@ public class Rule {
     }
 
     public Rule email() {
-        addValidation(new RegexValidator("字段邮件格式不正确", RegularStrContant.EMAIL_ADDRESS));
+        String errorMessage = mResources.getString(R.string.validation_error_message_email, mName);
+        addValidation(new RegexValidator(errorMessage, RegularStrContant.EMAIL_ADDRESS));
         return this;
     }
-
-    public void validation() {
-        for (AbstractValidator validator : mAbstractValidators) {
-            if (!validator.isValid(getValue())) {
-                break;
-            }
-        }
-    }
-
-
-    public boolean validate() {
-        return true;
-    }
-
-
 }
