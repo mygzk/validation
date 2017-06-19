@@ -9,19 +9,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginBottom="2dp"
         android:paddingStart="5dp"
         android:text="性别"
-        android:textColor="#797979"
-        android:textSize="12sp"
+        android:textColor="@color/form_font_corlor1"
+        android:textSize="10sp"
         android:visibility="gone" />
 
     <FrameLayout
         android:id="@+id/form_item_content_layout"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@drawable/bg_gray">
+        android:layout_height="40dp"
+        android:background="@drawable/bg_gray"
+        android:paddingEnd="15dp"
+        android:paddingStart="15dp">
 
         <EditText
             android:id="@+id/form_item_content_et"
@@ -29,14 +30,12 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:background="@null"
-            android:paddingEnd="5dp"
-            android:paddingStart="5dp"
-            android:hint="*名称"
-            android:textColor="#2e2e2e"
+            android:hint=""
+            android:imeOptions="actionNext"
             android:lines="1"
             android:maxLines="1"
-            android:imeOptions="actionNext"
-            android:textColorHint="#797979"
+            android:textColor="@color/form_font_corlor1"
+            android:textColorHint="@color/form_font_corlor1"
             android:textSize="14sp" />
 
         <TextView
@@ -45,15 +44,14 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:paddingEnd="5dp"
-            android:paddingStart="5dp"
-            android:textColor="#2e2e2e"
+            android:textColor="@color/form_font_corlor1"
             android:textSize="14sp"
             android:visibility="gone" />
 
         <ImageView
             android:id="@+id/form_item_content_img_below"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="13dp"
+            android:layout_height="8dp"
             android:layout_gravity="center_vertical|end"
             android:layout_marginEnd="10dp"
             android:src="@mipmap/arrow_below"
@@ -67,11 +65,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
-        android:layout_margin="5dp"
         android:paddingStart="5dp"
         android:text="性别"
-        android:textColor="#f10606"
-        android:textSize="12sp"
+        android:textColor="@color/form_font_corlor2"
+        android:textSize="11sp"
         android:visibility="gone" />
 
 

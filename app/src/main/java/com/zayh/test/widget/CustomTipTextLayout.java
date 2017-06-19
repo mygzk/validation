@@ -11,6 +11,7 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -76,6 +77,7 @@ public class CustomTipTextLayout extends FrameLayout {
         tvContent = (TextView) view.findViewById(R.id.form_item_content_tv);
         imgArrowBelow = (ImageView) view.findViewById(R.id.form_item_content_img_below);
 
+
         if (mTipShow) {
             tvtip.setVisibility(VISIBLE);
         }
@@ -84,6 +86,17 @@ public class CustomTipTextLayout extends FrameLayout {
             tvContent.setVisibility(GONE);
             imgArrowBelow.setVisibility(GONE);
             etInput.addTextChangedListener(watcher);
+            etInput.setOnFocusChangeListener(new OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (hasFocus) {
+                        flContent.setBackgroundResource(R.drawable.bg_blue_stroke);
+                        etInput.setTextColor(getResources().getColor(R.color.form_font_corlor1));
+                    } else {
+                        flContent.setBackgroundResource(R.drawable.bg_gray);
+                    }
+                }
+            });
         } else {
             etInput.setVisibility(GONE);
             tvContent.setVisibility(VISIBLE);
@@ -96,6 +109,10 @@ public class CustomTipTextLayout extends FrameLayout {
         if (mErrorTipTvColor != 0) {
             tvErrortip.setTextColor(mErrorTipTvColor);
         }
+
+
+        etInput.setOnTouchListener(mTouchListener);
+        tvContent.setOnTouchListener(mTouchListener);
         initValidtion();
     }
 
@@ -105,6 +122,8 @@ public class CustomTipTextLayout extends FrameLayout {
         tvErrortip.setText(msg + "");
         if (changebg) {
             flContent.setBackgroundResource(R.drawable.bg_red);
+            etInput.setTextColor(getResources().getColor(R.color.white));
+            tvContent.setTextColor(getResources().getColor(R.color.white));
         }
     }
 
@@ -129,7 +148,12 @@ public class CustomTipTextLayout extends FrameLayout {
 
         @Override
         public void afterTextChanged(Editable s) {
-            flContent.setBackgroundResource(R.drawable.bg_gray);
+            if (etInput.getVisibility() == VISIBLE &&
+                    etInput.hasFocus()) {
+                flContent.setBackgroundResource(R.drawable.bg_blue_stroke);
+            } else {
+                flContent.setBackgroundResource(R.drawable.bg_gray);
+            }
             tvErrortip.setVisibility(GONE);
 
             if (mValidator) {
@@ -146,7 +170,7 @@ public class CustomTipTextLayout extends FrameLayout {
     };
 
     private void initValidtion() {
-        mRule = Rule.with(etInput, mTipField).required();
+        mRule = Rule.with(etInput, mTipField).required().email();
         mRule.setValidationListener(mErrorHandler);
     }
 
@@ -157,11 +181,26 @@ public class CustomTipTextLayout extends FrameLayout {
         }
 
         @Override
-        public void onInValid(ValidationError error,boolean changebg) {
+        public void onInValid(ValidationError error, boolean changebg) {
             checkErr(error.getmErrorMessages(), changebg);
         }
     };
 
+    private OnTouchListener mTouchListener = new OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            if (etInput.getVisibility() == VISIBLE) {
+                if (etInput.hasFocus()) {
+                    etInput.setTextColor(getResources().getColor(R.color.form_font_corlor1));
+                    flContent.setBackgroundResource(R.drawable.bg_blue_stroke);
+                }
+            }
+
+            tvContent.setTextColor(getResources().getColor(R.color.form_font_corlor1));
+
+            return false;
+        }
+    };
 
     public Rule getRule() {
         return mRule;
