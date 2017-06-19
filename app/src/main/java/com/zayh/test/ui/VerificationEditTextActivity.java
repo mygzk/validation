@@ -42,11 +42,11 @@ public class VerificationEditTextActivity extends Activity {
         itemTest3 = (CustomTipTextLayout) findViewById(R.id.item_test3);
         itemTest4 = (CustomTipTextLayout) findViewById(R.id.item_test4);
         final Validator<CustomTipTextLayout> validator = new Validator();
-        validator.addRule(itemTest,itemTest.getRule());
-        validator.addRule(itemTest1,itemTest1.getRule());
-        validator.addRule(itemTest2,itemTest2.getRule());
-        validator.addRule(itemTest3,itemTest3.getRule());
-        validator.addRule(itemTest4,itemTest4.getRule());
+        validator.addRule(itemTest, itemTest.getRule());
+        validator.addRule(itemTest1, itemTest1.getRule());
+        validator.addRule(itemTest2, itemTest2.getRule());
+        validator.addRule(itemTest3, itemTest3.getRule());
+        validator.addRule(itemTest4, itemTest4.getRule());
         validator.setValidationListener(new ValidationListener<CustomTipTextLayout>() {
             @Override
             public void onValid() {
