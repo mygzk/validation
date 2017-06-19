@@ -10,5 +10,5 @@ public interface ErrorHandler {
 
     void onValid();
 
-    void onInValid(ValidationError error);
+    void onInValid(ValidationError error,boolean changebg);
 }

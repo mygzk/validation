@@ -22,18 +22,20 @@
             android:layout_marginTop="5dp" />
 
         <com.zayh.test.widget.CustomTipTextLayout
+            android:id="@+id/item_test1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_marginEnd="10dp"
             android:layout_marginStart="10dp"
-            formItem:type="1"
+            formItem:type="0"
             formItem:tip_show="true"
             formItem:tip_color="@color/colorPrimary"
             formItem:tip_error_color="@color/colorAccent"
             android:layout_marginTop="5dp" />
 
         <com.zayh.test.widget.CustomTipTextLayout
+            android:id="@+id/item_test2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
@@ -44,6 +46,7 @@
             android:layout_marginTop="5dp" />
 
         <com.zayh.test.widget.CustomTipTextLayout
+            android:id="@+id/item_test3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
@@ -52,6 +55,7 @@
             android:layout_marginTop="5dp" />
 
         <com.zayh.test.widget.CustomTipTextLayout
+            android:id="@+id/item_test4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"

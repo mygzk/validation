@@ -19,10 +19,12 @@ package com.zayh.test.validation;
 
 import java.util.List;
 
-public interface ValidationListener {
+public interface ValidationListener<T> {
 
     void onValid();
 
     void onInValid(List<ValidationError> errors);
+
+    void onInValidFirstView(T view);
 
 }

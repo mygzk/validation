@@ -46,6 +46,10 @@ public class Rule {
         return new Rule(view, name);
     }
 
+    public static Rule with(View view, String name) {
+        return new Rule(view, name);
+    }
+
     public Rule(View mView, String mName) {
         if (!(mView instanceof TextView)) {
             throw new ValidationException("只支持 TextView 及其派生控件。");
@@ -79,21 +83,28 @@ public class Rule {
     }
 
 
-
+    /**
+     * 开始验证
+     */
     public void validation() {
         boolean val = true;
+        ValidationError error = null;
         for (AbstractValidator validator : mAbstractValidators) {
             if (!validator.isValid(getValue())) {
                 val = false;
-                if (mErrorHandler != null) {
-                    mErrorHandler.onInValid(new ValidationError(mView, validator.getmValidationMsg()));
-                }
+                error = new ValidationError(mView, validator.getmValidationMsg());
                 break;
             }
         }
-        if (val) {
-            if (mErrorHandler != null) {
+        notifyHandler(val, error, false);
+    }
+
+    public void notifyHandler(boolean val, ValidationError validationError, boolean changbg) {
+        if (mErrorHandler != null) {
+            if (val) {
                 mErrorHandler.onValid();
+            } else {
+                mErrorHandler.onInValid(validationError, changbg);
             }
         }
     }

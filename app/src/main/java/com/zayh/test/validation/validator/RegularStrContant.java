@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
  */
 
 public class RegularStrContant {
-    public static final Pattern EMAIL_ADDRESS = android.util.Patterns.EMAIL_ADDRESS;
+    public static final Pattern EMAIL_ADDRESS =  Pattern.compile("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$");
     public static final Pattern IP_ADDRESS = android.util.Patterns.IP_ADDRESS;
     public static final Pattern WEB_URL = android.util.Patterns.WEB_URL;
     public static final Pattern DOMAIN_NAME = android.util.Patterns.DOMAIN_NAME;

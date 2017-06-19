@@ -9,6 +9,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -17,7 +18,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zayh.test.R;
+import com.zayh.test.validation.ErrorHandler;
 import com.zayh.test.validation.Rule;
+import com.zayh.test.validation.ValidationError;
 
 /**
  * Created by guozhk on 2017/6/18.
@@ -37,6 +40,9 @@ public class CustomTipTextLayout extends FrameLayout {
     private boolean mTipShow = false;
     private int mTipTvColor;
     private int mErrorTipTvColor;
+    private boolean mValidator = false;
+    private String mTipField;
+    private Rule mRule;
 
 
     public CustomTipTextLayout(@NonNull Context context) {
@@ -55,6 +61,8 @@ public class CustomTipTextLayout extends FrameLayout {
         mTipShow = attributesArray.getBoolean(R.styleable.form_item_tip_show, false);
         mTipTvColor = attributesArray.getColor(R.styleable.form_item_tip_color, 0);
         mErrorTipTvColor = attributesArray.getColor(R.styleable.form_item_tip_error_color, 0);
+        mValidator = attributesArray.getBoolean(R.styleable.form_item_auto_validator, false);
+        mTipField = attributesArray.getString(R.styleable.form_item_tip_filed);
         attributesArray.recycle();
         iniView();
     }
@@ -88,27 +96,23 @@ public class CustomTipTextLayout extends FrameLayout {
         if (mErrorTipTvColor != 0) {
             tvErrortip.setTextColor(mErrorTipTvColor);
         }
-
+        initValidtion();
     }
 
 
-    public void setErrorMsg(String msg) {
+    public void checkErr(String msg, boolean changebg) {
         tvErrortip.setVisibility(VISIBLE);
         tvErrortip.setText(msg + "");
-        flContent.setBackgroundResource(R.drawable.bg_red);
-    }
-
-
-    public void setViewVi() {
-        if (tvtip.getVisibility() == VISIBLE) {
-            tvtip.setVisibility(GONE);
-            tvErrortip.setVisibility(GONE);
-        } else {
-            tvtip.setVisibility(VISIBLE);
-            tvErrortip.setVisibility(VISIBLE);
+        if (changebg) {
+            flContent.setBackgroundResource(R.drawable.bg_red);
         }
-
     }
+
+    public void checkSucc() {
+        flContent.setBackgroundResource(R.drawable.bg_gray);
+        tvErrortip.setVisibility(GONE);
+    }
+
 
     private TextWatcher watcher = new TextWatcher() {
 
@@ -127,7 +131,11 @@ public class CustomTipTextLayout extends FrameLayout {
         public void afterTextChanged(Editable s) {
             flContent.setBackgroundResource(R.drawable.bg_gray);
             tvErrortip.setVisibility(GONE);
-            validtion();
+
+            if (mValidator) {
+                mRule.validation();
+            }
+
             String searChTv = s.toString();
             if (TextUtils.isEmpty(searChTv)) {
                 tvtip.setVisibility(GONE);
@@ -137,8 +145,25 @@ public class CustomTipTextLayout extends FrameLayout {
         }
     };
 
-    private void validtion() {
-        Rule.with(etInput).required().email().validation();
+    private void initValidtion() {
+        mRule = Rule.with(etInput, mTipField).required();
+        mRule.setValidationListener(mErrorHandler);
+    }
 
+    private ErrorHandler mErrorHandler = new ErrorHandler() {
+        @Override
+        public void onValid() {
+            checkSucc();
+        }
+
+        @Override
+        public void onInValid(ValidationError error,boolean changebg) {
+            checkErr(error.getmErrorMessages(), changebg);
+        }
+    };
+
+
+    public Rule getRule() {
+        return mRule;
     }
 }
